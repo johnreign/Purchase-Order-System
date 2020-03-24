@@ -2,7 +2,7 @@
 
 ### How to setup?
 
-- Clone this repo (git clone https://github.com/vahnmarty/laravel-adminty.git)
+- Clone this repo (git clone https://github.com/johnreign/Purchase-Order-System.git)
 - cd laravel-adminty
 - composer install
 - cp .env.example .env 
