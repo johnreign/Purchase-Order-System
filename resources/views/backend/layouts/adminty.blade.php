@@ -23,6 +23,8 @@
     @yield('css')
 
     <link rel="stylesheet" type="text/css" href="{{url('css/custom.css?')}}{{ mt_rand() }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
 </head>
     <body>
@@ -70,6 +72,7 @@
         <script src="{{ url('js/custom.js?') }}{{ mt_rand() }}"></script>
         <script src="{{ url('js/v.js?') }}{{ mt_rand() }}"></script>
         @yield('scripts')
-
     </body>
+
+    @yield('js')
 </html>
