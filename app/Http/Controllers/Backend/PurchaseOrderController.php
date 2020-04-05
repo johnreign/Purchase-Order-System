@@ -18,8 +18,9 @@ class PurchaseOrderController extends Controller
 
     public function create(){
 
-        $suppliers = Supplier::get();
-    	return view('backend.purchase_order.create',compact('suppliers'));
+        $items = Item::get();
+        $suppliers = Supplier::get(); 
+    	return view('backend.purchase_order.create',compact('suppliers','items'));
     }
 
     public function store(Request $request){
@@ -34,8 +35,11 @@ class PurchaseOrderController extends Controller
         $po->lot_number = $request->lot_number;
         $po->po_number = $request->po_number;
         $po->supplier_id = $request->supplier_id;
+        $po->total_amount = $request->total_amount;
         $po->order_date = date('Y-m-d', strtotime($request->order_date));
         $po->save();
         return redirect('/admin/list')->with('message', 'Purchase Order Added!');
     }
+
+    
 }

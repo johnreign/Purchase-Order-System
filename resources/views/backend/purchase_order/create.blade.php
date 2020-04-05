@@ -75,54 +75,38 @@
                       </div>
                     </div>
                     <hr>
-                    <!-- <div class="text-center mb-3">
-                      <h4>ITEMS</h4>
-                    </div>
-                    <table id="items1" class="table table-striped table-bordered dt-responsive nowrap text-center" style="width:100%">
-                      <thead class="thead-dark">
-                        <tr>
-                          <th style="width:20%">Unit</th>
-                          <th style="width:20%">Quantity</th>
-                          <th style="width:20%">Unit Price</th>
-                          <th style="width:20%">Amount</th>
-                          <th style="width:15%">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Mouse</td>
-                          <td><input type="number" name="quantity"></td>
-                          <td><input type="" name="unit_price"></td>
-                          <td><input type="" name="amount"></td>
-                          <td><button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>Add Item</button></td>
-                        </tr>
-                      </tbody>
-                    </table> -->
                     <div class="row pt-5">
                       <div class="col-md-12 pr-3">
                         <div class="table-responsive">
-                          <table class="table table-bordered display table-dynamic" id="po-table" style="width:99%">
+                          <table class="table table-bordered display table-dynamic text-center" id="table-po" style="width:99%">
                             <thead>
                               <tr>
                                 <th>Items</th>
                                 <th style="width:100px;">Quantity</th>
-                                <th style="width:120px;">Price</th>
-                                <th style="width:150px;">Amount</th>
-                                <th style="width:70px;">Action</th>
+                                <th style="width:100px;">Price</th>
+                                <th style="width:100px;">Amount</th>
+                                <th style="width:80px;">Action</th>
                               </tr>
                             </thead>
                             <tbody>
+                              @foreach($items as $i => $item)
                               <tr>
-                                <td></td>
                                 <td>
-                                  <input style="width: 100%" type="number" name="quantity" class="form-control quantity" value="">
+                                  {{ $item->unit }}
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                  <input style="width:100px" type="number" name="items[0][quantity]" class="form-control input-quantity" >
+                                </td>
+                                <td><input style="width:100px" type="number" name="items[0][price]" class="form-control input-price">
+                                </td>
+                                <td>
+                                  <input style="width:100px" type="number" name="items[0][amount]" class="form-control input-amount" readonly>
+                                </td>
                                 <td>
                                   <button name="add" class="delete btn btn-sm btn-primary"><i class="icofont icofont-plus"></i>Add Item</button>
                                 </td>
                               </tr>
+                              @endforeach
                             </tbody>
                           </table>
                         </div>
@@ -138,9 +122,8 @@
                       </div>
                       <div class="col-lg-6">
                         <div class="text-right">
-                          <h4 class="text-primary">TOTAL AMOUNT : <span id="total">50.00</span></h4>
-                          <input type="hidden"  name="overall_total">
-
+                          <h4 class="text-primary">TOTAL AMOUNT : <span id="total">0.00</span></h4>
+                          <input type="hidden"  name="total_amount">
                         </div>
                       </div>
                     </div>
@@ -164,9 +147,45 @@
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
 
 <script type="text/javascript">
+
   $(document).ready(function() {
-    $('#po-table').DataTable();
+    $('#table-po').DataTable();
   });
+
+  $('#table-po').on('input', '.input-price', function(){
+    var val = parseFloat(this.value);
+    var row = $(this).closest('tr');
+    var price = parseFloat(val || 0);
+    var qty = parseFloat(row.find('.input-quantity').val() || 0);
+    var amount = qty * price;
+
+    row.find('.input-amount').val(amount);
+    updateSummary();
+  });
+
+  function updateSummary()
+  {
+    var table = $('#table-po');
+    var subtotal = 0;
+    table.find('.input-amount').each(function(){
+      subtotal += parseFloat($(this).val());
+    });
+
+
+    var vatable = subtotal / 1.12;
+    var vat_amount= subtotal - vatable;
+    $('[name="total_amount"]').val(subtotal.toFixed(2));
+    $('[name="subtotal"]').val(subtotal.toFixed(2));
+    $('[name="vatable"]').val(vatable.toFixed(2));
+        $('[name="vat_amount"]').val(vat_amount.toFixed(2))
+
+    var st = subtotal - vatable;
+
+    $('#subtotal').html(vatable.toFixed(2));
+    $('#vat').html(st.toFixed(2));
+    $('#total').html(subtotal.toFixed(2));
+  }
+
 </script>
 
 @endsection

@@ -71,11 +71,24 @@
                                 <td>{{$row->po_number}}</td>
                                 <td>{{$row->lot_number}}</td>
                                 <td>{{$row->supplier->supp_name}}</td>                         
-                                <td></td>
-                                <td class="icon-btn">
-                                    <a href="" class="btn btn-sm btn-primary"><span class="fa fa-eye"></span> Show</a>
-                                    <a href="" class="btn btn-sm btn-warning"><span class="fa fa-edit"></span> Edit</a>
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"> Delete</i></button>   
+                                <td>{{$row->total_amount}}</td>
+                                <td>
+                                    <div class="dropdown-info dropdown open">
+                                        <button class="btn btn-info btn-mini dropdown-toggle waves-effect waves-light " type="button" id="dropdown-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-options"></i></button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdown-4" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start">
+
+                                        <a class="dropdown-item waves-light waves-effect" 
+                                        href=""><span class="feather icon-box"></span> View PO</a>
+
+                                        <a class="dropdown-item waves-light waves-effect" 
+                                        href=""><span class="icofont icofont-edit"></span> Edit PO</a>
+
+                                        <a class="dropdown-item waves-light waves-effect" 
+                                        href=""><span class="icofont icofont-trash"></span> Delete PO</a>
+
+                                            
+                                        </div>
+                                    </div> 
                                 </td>
                             </tr>
                             @endforeach
