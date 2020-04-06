@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\PurchaseOrder;
 use App\Models\Supplier;
-use App\Models\Item;
+use App\Models\PurchaseOrderItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -18,17 +18,16 @@ class PurchaseOrderController extends Controller
 
     public function create(){
 
-        $items = Item::get();
         $suppliers = Supplier::get(); 
-    	return view('backend.purchase_order.create',compact('suppliers','items'));
+    	return view('backend.purchase_order.create',compact('suppliers'));
     }
 
     public function store(Request $request){
 
-    	$this->validate($request , [
-        'lot_number' => 'required',
-        'po_number' => 'required',
-        'supplier_id' => 'required',
+        $request->validate([
+            'lot_number' => 'required',
+            'po_number' => 'required',
+            'supplier_id' => 'required'
         ]);
 
         $po = new PurchaseOrder();
@@ -38,6 +37,19 @@ class PurchaseOrderController extends Controller
         $po->total_amount = $request->total_amount;
         $po->order_date = date('Y-m-d', strtotime($request->order_date));
         $po->save();
+
+        if (count($request->items) > 0) {
+            foreach ($request->items as $i => $it) {
+                $po_item = new PurchaseOrderItem;
+                $po_item->purchase_order_id = $po->id;
+                $po_item->item_id = $it['item_id'];
+                $po_item->quantity = $it['quantity'];
+                $po_item->price = $it['price'];
+                $po_item->amount = $it['amount'];
+                $po_item->save();
+            }
+        }
+
         return redirect('/admin/list')->with('message', 'Purchase Order Added!');
     }
 

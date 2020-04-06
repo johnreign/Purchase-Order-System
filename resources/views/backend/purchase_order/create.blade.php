@@ -78,36 +78,42 @@
                     <div class="row pt-5">
                       <div class="col-md-12 pr-3">
                         <div class="table-responsive">
-                          <table class="table table-bordered display table-dynamic text-center" id="table-po" style="width:99%">
+                          <table class="table table-bordered display table-dynamic text-center" id="table-po">
                             <thead>
                               <tr>
-                                <th>Items</th>
-                                <th style="width:100px;">Quantity</th>
-                                <th style="width:100px;">Price</th>
-                                <th style="width:100px;">Amount</th>
-                                <th style="width:80px;">Action</th>
+                                <th width="45%">Items</th>
+                                <th width="15%">Quantity</th>
+                                <th width="15%">Price</th>
+                                <th width="15%">Amount</th>
+                                <th width="10%">Action</th>
                               </tr>
                             </thead>
                             <tbody>
-                              @foreach($items as $i => $item)
+                                <tr>
+                                  <td>
+                                    <input type="text" class="code autocomplete form-control" placeholder="Type the item here and select">
+                                    <input type="hidden" name="items[0][item_id]" class="item_id">
+                                  </td>
+                                  <td>
+                                    <input type="number" name="items[0][quantity]" class="form-control input-quantity" value="1">
+                                  </td>
+                                  <td><input type="number" name="items[0][price]" class="form-control input-price" placeholder="e.g. 99">
+                                  </td>
+                                  <td>
+                                    <input type="number" name="items[0][amount]" class="form-control input-amount" placeholder="e.g. 99" readonly>
+                                  </td>
+                                  <td>
+                                    <button type="button" class="delete btn btn-sm btn-danger"><i class="icofont icofont-trash"></i></button>
+                                  </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
                               <tr>
-                                <td>
-                                  {{ $item->unit }}
-                                </td>
-                                <td>
-                                  <input style="width:100px" type="number" name="items[0][quantity]" class="form-control input-quantity" >
-                                </td>
-                                <td><input style="width:100px" type="number" name="items[0][price]" class="form-control input-price">
-                                </td>
-                                <td>
-                                  <input style="width:100px" type="number" name="items[0][amount]" class="form-control input-amount" readonly>
-                                </td>
-                                <td>
-                                  <button name="add" class="delete btn btn-sm btn-primary"><i class="icofont icofont-plus"></i>Add Item</button>
+                                <td colspan="5" class="text-left">
+                                  <a href="#!" class="btn btn-primary add-row"><i class="feather icon-plus"></i> Add Row</a>
                                 </td>
                               </tr>
-                              @endforeach
-                            </tbody>
+                            </tfoot>
                           </table>
                         </div>
                       </div>
@@ -149,7 +155,72 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
-    $('#table-po').DataTable();
+    // $('#table-po').DataTable();
+
+    $(document).on('click', '.add-row', function(){
+        var rowCount = $('#table-po tbody').length;
+        $(this).closest('table').each(function () {                
+            $('tbody', this).append('<tr>'+
+              '<td>'+
+                '<input type="text" class="code autocomplete form-control" placeholder="Type the item here and select">'+
+                '<input type="hidden" name="items['+rowCount+'][item_id]" class="item_id">'+
+              '</td>'+
+              '<td>'+
+                '<input type="number" name="items['+rowCount+'][quantity]" class="form-control input-quantity" value="1">'+
+              '</td>'+
+              '<td><input type="number" name="items['+rowCount+'][price]" class="form-control input-price" placeholder="e.g. 99">'+
+              '</td>'+
+              '<td>'+
+                '<input type="number" name="items['+rowCount+'][amount]" class="form-control input-amount" placeholder="e.g. 99" readonly>'+
+              '</td>'+
+              '<td>'+
+                '<button type="button" class="delete btn btn-sm btn-danger"><i class="icofont icofont-trash"></i></button>'+
+              '</td>'+
+            '</tr>');
+        });
+    });
+
+    $(document).on('click', '.delete', function(){
+      $(this).closest("tr").remove();
+    });
+
+    $(document).on("click.autocomplete",".autocomplete",function(e){
+      $(this).autocomplete({
+          source: function (request, response) {
+              $.getJSON("{!! url('admin/items/search') !!}?keyword=" + request.term, function (data) {
+                  response($.map(data, function (value, key) {
+                    
+                      return {
+                          label:value['code'] +' '+value['description'],
+                          value:value['code'],
+                          code : value['code'],
+                          description: value['description'],
+                          id:value['id']
+                      };
+                  }));
+              });
+          },
+          select: function (event, ui) {           
+              var id = $(this).next('input');
+              var description = $(this).closest('tr').find('.description');
+
+              selectReference(event, ui, id, description);
+              
+          },
+          minLength:2,
+          delay:0
+          }
+      );
+      
+    }); 
+
+    function selectReference(event, ui, id, description)
+    {    
+        var array = [];            
+        var selectedObj = ui.item;
+        $(id).val(selectedObj.id);
+        $(description).val(selectedObj.description);
+    }
   });
 
   $('#table-po').on('input', '.input-price', function(){
