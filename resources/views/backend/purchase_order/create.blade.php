@@ -92,7 +92,7 @@
                                 <tr>
                                   <td>
                                     <input type="text" class="code autocomplete form-control" placeholder="Type the item here and select">
-                                    <input type="hidden" name="items[0][item_id]" class="item_id">
+                                    <input type="hidden" name="items[0][item_id]" class="item_id" required>
                                   </td>
                                   <td>
                                     <input type="number" name="items[0][quantity]" class="form-control input-quantity" value="1">
@@ -146,11 +146,6 @@
 @endsection
 
 @section('scripts')
-
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
 
 <script type="text/javascript">
 

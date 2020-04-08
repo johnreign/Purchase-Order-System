@@ -27,7 +27,8 @@ class PurchaseOrderController extends Controller
         $request->validate([
             'lot_number' => 'required',
             'po_number' => 'required',
-            'supplier_id' => 'required'
+            'supplier_id' => 'required',
+            // 'item_id' => 'required',
         ]);
 
         $po = new PurchaseOrder();
@@ -53,5 +54,21 @@ class PurchaseOrderController extends Controller
         return redirect('/admin/list')->with('message', 'Purchase Order Added!');
     }
 
+    public function show($id){
+
+        $po = PurchaseOrder::where('id', $id)->first();
+        return view ('backend.purchase_order.show',compact('po'));
+
+
+    }
+
+
+    public function destroy($id){
+
+      $po = PurchaseOrder::find($id);
+      $po->delete();
+
+      return redirect('/admin/list')->with('message', 'Purchase Order Deleted!');
+    }
     
 }

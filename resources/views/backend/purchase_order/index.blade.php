@@ -78,14 +78,18 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdown-4" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start">
 
                                         <a class="dropdown-item waves-light waves-effect" 
-                                        href=""><span class="feather icon-box"></span> View PO</a>
+                                        href="{{url('admin/list', $po->id)}}"><span class="feather icon-box"></span> View PO</a>
 
                                         <a class="dropdown-item waves-light waves-effect" 
                                         href=""><span class="icofont icofont-edit"></span> Edit PO</a>
 
-                                        <a class="dropdown-item waves-light waves-effect" 
-                                        href=""><span class="icofont icofont-trash"></span> Delete PO</a>
 
+                                        <form method="POST" action="">
+                                            @method('DELETE')
+                                            @csrf
+                                            <a class="dropdown-item waves-light waves-effect" 
+                                            ><span class="icofont icofont-trash"></span> Delete PO</a>
+                                        </form>
                                             
                                         </div>
                                     </div> 
@@ -100,4 +104,20 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section ('scripts')
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    $('#base-style').DataTable();
+} )
+</script>
+
 @endsection
