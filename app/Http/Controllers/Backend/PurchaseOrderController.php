@@ -28,7 +28,6 @@ class PurchaseOrderController extends Controller
             'lot_number' => 'required',
             'po_number' => 'required',
             'supplier_id' => 'required',
-            // 'item_id' => 'required',
         ]);
 
         $po = new PurchaseOrder();
@@ -59,6 +58,45 @@ class PurchaseOrderController extends Controller
         $po = PurchaseOrder::where('id', $id)->first();
         return view ('backend.purchase_order.show',compact('po'));
 
+
+    }
+
+    public function edit($id){
+        $po = PurchaseOrder::where('id', $id)->first();
+        $suppliers = Supplier::where('id', $id)->first(); 
+        return view ('backend.purchase_order.edit',compact('po','suppliers'));   
+
+    }
+
+    public function update(Request $request, $id){
+
+        $request->validate([
+            'lot_number' => 'required',
+            'po_number' => 'required',
+            'supplier_id' => 'required',
+        ]);
+
+        $po = PurchaseOrder::find($id);
+        $po->lot_number = $request->lot_number;
+        $po->po_number = $request->po_number;
+        $po->supplier_id = $request->supplier_id;
+        $po->total_amount = $request->total_amount;
+        $po->order_date = date('Y-m-d', strtotime($request->order_date));
+        $po->save();
+
+        if (count($request->items) > 0) {
+            foreach ($request->items as $i => $it) {
+                $po_item = new PurchaseOrderItem;
+                $po_item->purchase_order_id = $po->id;
+                $po_item->item_id = $it['item_id'];
+                $po_item->quantity = $it['quantity'];
+                $po_item->price = $it['price'];
+                $po_item->amount = $it['amount'];
+                $po_item->save();
+            }
+        }
+
+        return redirect('/admin/list')->with('message', 'Purchase Order Updated!');
 
     }
 

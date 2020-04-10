@@ -6,12 +6,15 @@
 <div class="page-wrapper">
 	<div class="page-header">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-lg-6">
                 <div class="page-header-title">
-                    <div class="d-inline">
-                        <h4>Purchase Order Management</h4>
+                  	<div class="d-inline">
+                        <h4>View Purchase Order</h4>
                     </div>
                 </div>
+                <a href="{{ url('admin/list')}}" class="btn btn-inverse btn-sm m-l-10">
+                    <i class="fa fa-arrow-left"></i> Back
+                </a>
             </div>
             <div class="col-sm-6">
                 <div class="page-header-breadcrumb">
@@ -41,12 +44,12 @@
 	                        <div class="col-lg-6">
 	                            <div class="row">
 	                                <div class="col-auto p-r-0">
-	                                    <img src="" alt="" class="img-fluid img-100">
+	                                    <img src="{{ url('img/iit.png') }}" alt="" class="img-fluid img-100">
 	                                </div>
 	                                <div class="col">
-	                                    <h4 class="m-b-5">PO</h4>
-	                                    <p class="mb-1">Order Date:</p>
-	                                    <p><label>Lot #: </label></p>
+	                                    <h4 class="m-b-5">{{ $po->po_number }}</h4>
+	                                    <p class="mb-1">{{ date('F d, Y', strtotime($po->order_date)) }}</p>
+	                                    <p><label>Lot #: {{ $po->lot_number }} </label></p>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -59,9 +62,9 @@
 	                                    <h4 class="card-title">Supplier :</h5>
 	                                </div>
 	                                <div class="card-body">
-	                                    <h5 class="mb-2">SUPP NAME</h5>
-	                                    <p class="mb-0"><i class="icofont icofont-location-pin"></i> Tambo, Hinaplanon</p>
-	                                    <p class="mb-0"><i class="icofont icofont-ui-cell-phone"></i> 09559771627</p>
+	                                    <h5 class="mb-2">{{ $po->supplier->supp_name }}</h5>
+	                                    <p class="mb-0"><i class="icofont icofont-location-pin"></i>{{ $po->supplier->supp_address }}</p>
+	                                    <p class="mb-0"><i class="icofont icofont-ui-cell-phone"></i>{{ $po->supplier->supp_num }}</p>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -90,15 +93,15 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	
+	                        	@foreach($po->purchase_order_item as $i => $item)
 	                            <tr>
-	                                <td></td>
-	                                <td></td>
-	                                <td></td>
-	                                <td></td>
-	                                <td></td>
+	                                <td>{{ $i+1 }}</td>
+	                                <td>{{ $item->item->code }} {{ $item->item->description }}</td>
+	                                <td>{{ $item->quantity }}</td>
+	                                <td>{{ $item->price }}</td>
+	                                <td>{{ $item->amount }}</td>
 	                            </tr>
-	                          
+	                          	@endforeach
 	                        </tbody>
 	                    </table>
 	                    <hr>
@@ -110,15 +113,15 @@
 	                        </div>
 	                        <div class="col-lg-6">
 	                            <div class="text-right">
-	                                <h4><b>GRAND TOTAL:</b></h4>
+	                                <h4><b>TOTAL AMOUNT: {{ $po->total_amount }}</b></h4>
 	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
 	                <div class="card-footer border border-top">
 	                    <div class="text-right">
-	                        <a href="#!" class="btn btn-secondary" disabled><i class="icofont icofont-email"></i> Send Email</a>
-	                        <a href="#!" class="btn btn-primary" id="print"><i class="icofont icofont-print"></i> Print</a>
+                        <a href="{{url('admin/list/edit', $po->id)}}" class="btn btn-secondary"><i class="icofont icofont-edit"></i> Edit</a>
+	                    <a href="#!" class="btn btn-primary" id="print"><i class="icofont icofont-print"></i> Print</a>
 	                    </div>
 	                </div>
 	            </div>

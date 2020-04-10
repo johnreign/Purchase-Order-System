@@ -74,22 +74,20 @@
                                 <td>{{$row->total_amount}}</td>
                                 <td>
                                     <div class="dropdown-info dropdown open">
+                                        
                                         <button class="btn btn-info btn-mini dropdown-toggle waves-effect waves-light " type="button" id="dropdown-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-options"></i></button>
+
                                         <div class="dropdown-menu" aria-labelledby="dropdown-4" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start">
 
                                         <a class="dropdown-item waves-light waves-effect" 
-                                        href="{{url('admin/list', $po->id)}}"><span class="feather icon-box"></span> View PO</a>
+                                        href="{{url('admin/list', $row->id)}}"><span class="feather icon-box"></span> View PO</a>
 
                                         <a class="dropdown-item waves-light waves-effect" 
-                                        href=""><span class="icofont icofont-edit"></span> Edit PO</a>
-
-
-                                        <form method="POST" action="">
-                                            @method('DELETE')
-                                            @csrf
-                                            <a class="dropdown-item waves-light waves-effect" 
-                                            ><span class="icofont icofont-trash"></span> Delete PO</a>
-                                        </form>
+                                        href="{{url('admin/list/edit', $row->id)}}"><span class="icofont icofont-edit"></span> Edit PO</a>
+                            
+                                        <a class="dropdown-item waves-light waves-effect" 
+                                        ><span class="icofont icofont-trash"></span> Delete PO</a>
+                                   
                                             
                                         </div>
                                     </div> 

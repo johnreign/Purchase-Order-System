@@ -22,4 +22,8 @@ class PurchaseOrder extends Model
     public function supplier(){
         return $this->belongsTo('App\Models\Supplier','supplier_id');
     }
+
+    public function purchase_order_item(){
+        return $this->hasMany(PurchaseOrderItem::class,'purchase_order_id','id');
+    }
 }

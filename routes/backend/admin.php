@@ -11,5 +11,9 @@ Route::get('list', 'PurchaseOrderController@index');
 Route::get('list/create','PurchaseOrderController@create');
 Route::post('list','PurchaseOrderController@store');
 Route::get('list/{id}','PurchaseOrderController@show');
+Route::get('list/edit/{id}','PurchaseOrderController@edit');
+Route::patch('list/{id}','PurchaseOrderController@update');
+Route::delete('list/{id}','PurchaseOrderController@destroy');
+
 
 Route::get('items/search', 'ItemsController@search')->name('items.search');
