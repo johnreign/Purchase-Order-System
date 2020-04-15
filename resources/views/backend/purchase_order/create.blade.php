@@ -153,7 +153,7 @@
     // $('#table-po').DataTable();
 
     $(document).on('click', '.add-row', function(){
-        var rowCount = $('#table-po tbody').length;
+      var rowCount = $('#table-po tr').length;
         $(this).closest('table').each(function () {                
             $('tbody', this).append('<tr>'+
               '<td>'+

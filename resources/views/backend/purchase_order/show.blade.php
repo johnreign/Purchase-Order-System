@@ -93,7 +93,7 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	@foreach($po->purchase_order_item as $i => $item)
+	                        	@foreach($po->purchase_order_items as $i => $item)
 	                            <tr>
 	                                <td>{{ $i+1 }}</td>
 	                                <td>{{ $item->item->code }} {{ $item->item->description }}</td>

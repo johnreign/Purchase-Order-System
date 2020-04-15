@@ -91,7 +91,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              @foreach($po->purchase_order_item as $i=>$item)
+                              @foreach($po->purchase_order_items as $i=>$item)
                                 <tr>
                                   <td>
                                     <input type="text" class="code autocomplete form-control" placeholder="Type the item here and select" value="{{ $item->item->code }}">
