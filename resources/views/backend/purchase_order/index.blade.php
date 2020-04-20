@@ -73,24 +73,15 @@
                                 <td>{{$row->supplier->supp_name}}</td>                         
                                 <td>{{$row->total_amount}}</td>
                                 <td>
-                                    <div class="dropdown-info dropdown open">
-                                        
-                                        <button class="btn btn-info btn-mini dropdown-toggle waves-effect waves-light " type="button" id="dropdown-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-options"></i></button>
-
-                                        <div class="dropdown-menu" aria-labelledby="dropdown-4" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start">
-
-                                        <a class="dropdown-item waves-light waves-effect" 
-                                        href="{{url('admin/list', $row->id)}}"><span class="feather icon-box"></span> View PO</a>
-
-                                        <a class="dropdown-item waves-light waves-effect" 
-                                        href="{{url('admin/list/edit', $row->id)}}"><span class="icofont icofont-edit"></span> Edit PO</a>
+                                    <form action="{{url('admin/list', $row->id)}}" method="post">
+                                        <a class="btn btn-sm btn-info" href="{{url('admin/list', $row->id)}}"><i class="fa fa-eye"></i>&nbsp;<b> Show</b></a>
                             
-                                        <a class="dropdown-item waves-light waves-effect" 
-                                        ><span class="icofont icofont-trash"></span> Delete PO</a>
-                                   
-                                            
-                                        </div>
-                                    </div> 
+                                        <a class="btn btn-sm btn-warning" href="{{url('admin/list/edit', $row->id)}}"><i class="fa fa-edit"></i>&nbsp;<b> Edit</b></a>
+
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i><b> Delete</b></button>
+                                    </form> 
                                 </td>
                             </tr>
                             @endforeach

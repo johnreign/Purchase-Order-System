@@ -40,7 +40,8 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-block">
-                  <form method="POST" action="{{ url('admin/list/edit',$po->id) }}" id="submit">
+                  <form method="POST" action="{{ url('admin/list',$po->id) }}" id="submit">
+                    @method('PATCH')
                     @csrf  
                     <div class="row">
                       <div class="col-xl-6">
@@ -147,4 +148,115 @@
       </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    // $('#table-po').DataTable();
+
+    $(document).on('click', '.add-row', function(){
+      var rowCount = $('#table-po tr').length;
+        $(this).closest('table').each(function () {                
+            $('tbody', this).append('<tr>'+
+              '<td>'+
+                '<input type="text" class="code autocomplete form-control" placeholder="Type the item here and select">'+
+                '<input type="hidden" name="items['+rowCount+'][item_id]" class="item_id">'+
+              '</td>'+
+              '<td>'+
+                '<input type="number" name="items['+rowCount+'][quantity]" class="form-control input-quantity" value="1">'+
+              '</td>'+
+              '<td><input type="number" name="items['+rowCount+'][price]" class="form-control input-price" placeholder="e.g. 99">'+
+              '</td>'+
+              '<td>'+
+                '<input type="number" name="items['+rowCount+'][amount]" class="form-control input-amount" placeholder="e.g. 99" readonly>'+
+              '</td>'+
+              '<td>'+
+                '<button type="button" class="delete btn btn-sm btn-danger"><i class="icofont icofont-trash"></i></button>'+
+              '</td>'+
+            '</tr>');
+        });
+    });
+
+    $(document).on('click', '.delete', function(){
+      $(this).closest("tr").remove();
+    });
+
+    $(document).on("click.autocomplete",".autocomplete",function(e){
+      $(this).autocomplete({
+          source: function (request, response) {
+              $.getJSON("{!! url('admin/items/search') !!}?keyword=" + request.term, function (data) {
+                  response($.map(data, function (value, key) {
+                    
+                      return {
+                          label:value['code'] +' '+value['description'],
+                          value:value['code'],
+                          code : value['code'],
+                          description: value['description'],
+                          id:value['id']
+                      };
+                  }));
+              });
+          },
+          select: function (event, ui) {           
+              var id = $(this).next('input');
+              var description = $(this).closest('tr').find('.description');
+
+              selectReference(event, ui, id, description);
+              
+          },
+          minLength:2,
+          delay:0
+          }
+      );
+      
+    }); 
+
+    function selectReference(event, ui, id, description)
+    {    
+        var array = [];            
+        var selectedObj = ui.item;
+        $(id).val(selectedObj.id);
+        $(description).val(selectedObj.description);
+    }
+  });
+
+  $('#table-po').on('input', '.input-price', function(){
+    var val = parseFloat(this.value);
+    var row = $(this).closest('tr');
+    var price = parseFloat(val || 0);
+    var qty = parseFloat(row.find('.input-quantity').val() || 0);
+    var amount = qty * price;
+
+    row.find('.input-amount').val(amount);
+    updateSummary();
+  });
+
+  function updateSummary()
+  {
+    var table = $('#table-po');
+    var subtotal = 0;
+    table.find('.input-amount').each(function(){
+      subtotal += parseFloat($(this).val());
+    });
+
+
+    var vatable = subtotal / 1.12;
+    var vat_amount= subtotal - vatable;
+    $('[name="total_amount"]').val(subtotal.toFixed(2));
+    $('[name="subtotal"]').val(subtotal.toFixed(2));
+    $('[name="vatable"]').val(vatable.toFixed(2));
+        $('[name="vat_amount"]').val(vat_amount.toFixed(2))
+
+    var st = subtotal - vatable;
+
+    $('#subtotal').html(vatable.toFixed(2));
+    $('#vat').html(st.toFixed(2));
+    $('#total').html(subtotal.toFixed(2));
+  }
+
+</script>
+
 @endsection

@@ -103,7 +103,7 @@ class PurchaseOrderController extends Controller
 
     public function destroy($id){
 
-      $po = PurchaseOrder::find($id);
+      $po = PurchaseOrder::findorFail($id);
       $po->delete();
 
       return redirect('/admin/list')->with('message', 'Purchase Order Deleted!');
