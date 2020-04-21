@@ -39,13 +39,13 @@ class PurchaseOrderController extends Controller
         $po->save();
 
         if (count($request->items) > 0) {
-            foreach ($request->items as $i => $it) {
+            foreach ($request->items as $i => $item) {
                 $po_item = new PurchaseOrderItem;
                 $po_item->purchase_order_id = $po->id;
-                $po_item->item_id = $it['item_id'];
-                $po_item->quantity = $it['quantity'];
-                $po_item->price = $it['price'];
-                $po_item->amount = $it['amount'];
+                $po_item->item_id = $item['item_id'];
+                $po_item->quantity = $item['quantity'];
+                $po_item->price = $item['price'];
+                $po_item->amount = $item['amount'];
                 $po_item->save();
             }
         }
@@ -62,14 +62,13 @@ class PurchaseOrderController extends Controller
     }
 
     public function edit($id){
-        $po = PurchaseOrder::where('id', $id)->first();
+        $po = PurchaseOrder::with('purchase_order_items')->where('id', $id)->first();
         $suppliers = Supplier::where('id', $id)->first(); 
         return view ('backend.purchase_order.edit',compact('po','suppliers'));   
 
     }
 
     public function update(Request $request, $id){
-
         $request->validate([
             'lot_number' => 'required',
             'po_number' => 'required',
@@ -85,18 +84,22 @@ class PurchaseOrderController extends Controller
         $po->save();
 
         if (count($request->items) > 0) {
-            foreach ($request->items as $i => $it) {
-                $po_item = new PurchaseOrderItem;
+            foreach ($request->items as $i => $item) {
+                if (isset($item['id'])) {
+                    $po_item = PurchaseOrderItem::find($item['id']);
+                }else {
+                    $po_item = new PurchaseOrderItem;
+                }
                 $po_item->purchase_order_id = $po->id;
-                $po_item->item_id = $it['item_id'];
-                $po_item->quantity = $it['quantity'];
-                $po_item->price = $it['price'];
-                $po_item->amount = $it['amount'];
+                $po_item->item_id = $item['item_id'];
+                $po_item->quantity = $item['quantity'];
+                $po_item->price = $item['price'];
+                $po_item->amount = $item['amount'];
                 $po_item->save();
             }
         }
 
-        return redirect('/admin/list')->with('message', 'Purchase Order Updated!');
+        return redirect()->back()->with('message', 'Purchase Order Updated!');
 
     }
 

@@ -35,6 +35,17 @@
           </div>
     </div>
 
+    @if (session()->has('message'))
+    <div class="col-sm-12">
+        <div class="alert  alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> {{ session()->get('message') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+    </div>
+    @endif
+
     <div class="page-body">
       <div class="row">
         <div class="col-sm-12">
@@ -92,19 +103,20 @@
                               </tr>
                             </thead>
                             <tbody>
-                              @foreach($po->purchase_order_items as $i=>$item)
+                              @foreach($po->purchase_order_items as $i => $po_item)
                                 <tr>
                                   <td>
-                                    <input type="text" class="code autocomplete form-control" placeholder="Type the item here and select" value="{{ $item->item->code }}">
-                                    <input type="hidden" name="items[{{$i}}][item_id]" class="item_id" required>
+                                    <input type="text" class="code autocomplete form-control" placeholder="Type the item here and select" value="{{ $po_item->item->code }}">
+                                    <input type="hidden" name="items[{{$i}}][id]" value="{{ $po_item->id }}">
+                                    <input type="hidden" name="items[{{$i}}][item_id]" class="item_id" value="{{ $po_item->item->id }}" required>
                                   </td>
                                   <td>
-                                    <input type="number" name="items[{{$i}}][quantity]" class="form-control input-quantity" value="{{ $item->quantity }}">
+                                    <input type="number" name="items[{{$i}}][quantity]" class="form-control input-quantity" value="{{ $po_item->quantity }}">
                                   </td>
-                                  <td><input type="number" name="items[{{$i}}][price]" class="form-control input-price" value="{{ $item->price }}">
+                                  <td><input type="number" name="items[{{$i}}][price]" class="form-control input-price" value="{{ $po_item->price }}">
                                   </td>
                                   <td>
-                                    <input type="number" name="items[{{$i}}][amount]" class="form-control input-amount" value="{{ $item->amount }}" readonly>
+                                    <input type="number" name="items[{{$i}}][amount]" class="form-control input-amount" value="{{ $po_item->amount }}" readonly>
                                   </td>
                                   <td>
                                     <button type="button" class="delete btn btn-sm btn-danger"><i class="icofont icofont-trash"></i></button>
