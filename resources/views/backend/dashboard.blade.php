@@ -13,7 +13,7 @@
                                 <h1><span class="icofont icofont-cart"></span></h1>
                             </div>
                             <div class="col-8">
-                                <h3 class="text-white font-weight-bold">5<h3>
+                                <h3 class="text-white font-weight-bold">2<h3>
                                 <h6 class="text-white m-b-0">Total Purchase Orders</h6>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
 </div>
 @endsection
 
-@section('scripts')
+<!-- @section('scripts')
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
@@ -37,4 +37,4 @@
 
    
 </script>
-@endsection
+@endsection -->

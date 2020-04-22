@@ -35,7 +35,10 @@ class PurchaseOrderController extends Controller
         $po->po_number = $request->po_number;
         $po->supplier_id = $request->supplier_id;
         $po->total_amount = $request->total_amount;
+        $po->delivery_date = date('Y-m-d', strtotime($request->delivery_date));
+        $po->term = $request->term;
         $po->order_date = date('Y-m-d', strtotime($request->order_date));
+        $po->remarks = $request->remarks;
         $po->save();
 
         if (count($request->items) > 0) {
@@ -81,6 +84,7 @@ class PurchaseOrderController extends Controller
         $po->supplier_id = $request->supplier_id;
         $po->total_amount = $request->total_amount;
         $po->order_date = date('Y-m-d', strtotime($request->order_date));
+        $po->remarks = $request->remarks;
         $po->save();
 
         if (count($request->items) > 0) {

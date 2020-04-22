@@ -73,8 +73,21 @@
                           <input type="date" name="order_date" class="form-control" required placeholder="" value="">
                         </div>
                       </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label class="col-form-label"> Date of Delivery *</label>
+                          <input type="date" name="delivery_date" class="form-control" required placeholder="" value="">
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label class="col-form-label"> Terms (in days) *</label>
+                          <input type="text" name="term" class="form-control" required placeholder="e.g 30" value="">
+                        </div>
+                      </div>
                     </div>
                     <hr>
+                    <p><em>*Note: Make sure to add the existing product to this Purchase Order.</em></p>
                     <div class="row pt-5">
                       <div class="col-md-12 pr-3">
                         <div class="table-responsive">
@@ -128,7 +141,7 @@
                       </div>
                       <div class="col-lg-6">
                         <div class="text-right">
-                          <h4 class="text-primary">TOTAL AMOUNT : <span id="total">0.00</span></h4>
+                          <h4 class="text-primary">GRAND TOTAL: <span id="total">0.00</span></h4>
                           <input type="hidden"  name="total_amount">
                         </div>
                       </div>

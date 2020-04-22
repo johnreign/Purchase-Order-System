@@ -11,7 +11,7 @@
 
             <li class="pcoded-hasmenu {{ Request::is('admin/list*') ? 'pcoded-trigger' : ''}}">
                 <a href="javascript:void(0)">
-                    <span class="pcoded-micon"><i class="fa fa-shopping-cart"></i></i></span>
+                    <span class="pcoded-micon"><i class="ti-shopping-cart"></i></i></span>
                     <span class="pcoded-mtext">Purchase Orders</span>
                 </a>
                 <ul class="pcoded-submenu">

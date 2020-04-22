@@ -47,14 +47,30 @@
 	                                    <img src="{{ url('img/iit.png') }}" alt="" class="img-fluid img-100">
 	                                </div>
 	                                <div class="col">
-	                                    <h4 class="m-b-5">{{ $po->po_number }}</h4>
-	                                    <p class="mb-1">{{ date('F d, Y', strtotime($po->order_date)) }}</p>
-	                                    <p><label>Lot #: {{ $po->lot_number }} </label></p>
+	                                    <h4 class="m-b-5">MSU-ILIGAN INSTITUTE OF TECHNOLOGY</h4>
+	                                    <p class="mb-1">Tibanga, Iligan City</p>
+	                                    <p><label>231-1234-233</label></p>
 	                                </div>
 	                            </div>
 	                        </div>
 	                    </div>
 	                    <hr>
+	                    <div class="row">
+	                        <div class="col-sm-12">
+	                            <div class="card card-primary">
+	                                <div class="card-header bg-primary py-2 text-center">
+	                                    <h4 class="card-title">PURCHASE ORDER</h5>
+	                                </div>
+	                                <div class="card-body text-center">
+	                                    <h4 class="mb-2">{{ $po->po_number }}</h4>
+	                                    <p class="mb-0">Date: {{ date('F d, Y', strtotime($po->order_date)) }}</p>
+	                                    <p class="mb-0">Lot Number: {{ $po->lot_number }} </p>
+	                                    <p class="mb-0">Delivery Term: {{ $po->term }} days </p>
+	                                    <p class="mb-0">Date of Delivery:  {{ date('F d, Y', strtotime($po->delivery_date)) }} </p>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
 	                    <div class="row">
 	                        <div class="col-sm-6">
 	                            <div class="card card-primary">
@@ -71,7 +87,7 @@
 	                        <div class="col-sm-6">
 	                            <div class="card card-primary">
 	                                <div class="card-header bg-primary py-2">
-	                                    <h4 class="card-title">From :</h5>
+	                                    <h4 class="card-title">Place of Delivery :</h5>
 	                                </div>
 	                                <div class="card-body">
 	                                    <h5 class="mb-2">MSU-Iligan Institute of Technology</h5>
@@ -86,17 +102,19 @@
 	                        <thead>
 	                            <tr>
 	                                <th>#</th>
-	                                <th>Item Description</th>
+	                                <th>Unit</th>
+	                                <th>Description</th>
 	                                <th>Quantity</th>
-	                                <th>Price</th>
-	                                <th>Amount</th>
+	                                <th>Unit Price</th>
+	                                <th>Total Amount</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
 	                        	@foreach($po->purchase_order_items as $i => $item)
 	                            <tr>
 	                                <td>{{ $i+1 }}</td>
-	                                <td>{{ $item->item->code }} {{ $item->item->description }}</td>
+	                                <td>{{ $item->item->code }}</td>
+	                                <td>{{ $item->item->description }}</td>
 	                                <td>{{ $item->quantity }}</td>
 	                                <td>{{ $item->price }}</td>
 	                                <td>{{ $item->amount }}</td>
@@ -108,12 +126,12 @@
 	                    <div class="row">
 	                        <div class="col-lg-6">
 	                            <div class="p-2" style="border: 1px dashed #eee">
-	                                <p><em>No comment</em></p>
+	                                <p><em>{{ $po->remarks }}</em></p>
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-6">
 	                            <div class="text-right">
-	                                <h4><b>TOTAL AMOUNT: {{ $po->total_amount }}</b></h4>
+	                                <h4><b>GRAND TOTAL: {{ $po->total_amount }}</b></h4>
 	                            </div>
 	                        </div>
 	                    </div>

@@ -87,8 +87,21 @@
                           value="{{$po->order_date}}">
                         </div>
                       </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label class="col-form-label"> Date of Delivery *</label>
+                          <input type="date" name="delivery_date" class="form-control" value="{{$po->delivery_date}}">
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label class="col-form-label"> Terms (in days) *</label>
+                          <input type="text" name="term" class="form-control" value="{{$po->term}}">
+                        </div>
+                      </div>
                     </div>
                     <hr>
+                    <p><em>*Note: Make sure to add the existing product to this Purchase Order.</em></p>
                     <div class="row pt-5">
                       <div class="col-md-12 pr-3">
                         <div class="table-responsive">
@@ -140,7 +153,8 @@
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label>Remarks</label>
-                          <textarea class="form-control" name="remarks" placeholder="Optional" rows="4"></textarea>
+                          <textarea class="form-control" name="remarks" placeholder="Optional" rows="4">
+                            {{ $po->remarks }}</textarea>
                         </div>
                       </div>
                       <div class="col-lg-6">
